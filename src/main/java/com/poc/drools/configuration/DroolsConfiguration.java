@@ -7,12 +7,14 @@ import org.kie.api.builder.KieModule;
 import org.kie.api.runtime.KieContainer;
 import org.kie.internal.io.ResourceFactory;
 
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
 public class DroolsConfiguration {
 
-    private final KieContainer kieContainer;
+    private final Map<String, KieContainer> bFunctions = new ConcurrentHashMap<>();
 
-    private DroolsConfiguration(){
-        kieContainer = kieContainer();
+    private DroolsConfiguration() {
     }
 
     private static class SingletonHelper {
@@ -23,16 +25,16 @@ public class DroolsConfiguration {
         return SingletonHelper.INSTANCE;
     }
 
-    private KieContainer kieContainer() {
+    public KieContainer getBFunction(String bFunction) {
+        return bFunctions.putIfAbsent(bFunction, kieContainer(bFunction));
+    }
+
+    // TODO instead of classpath retrieve from database or something like that
+    private KieContainer kieContainer(String bFunction) {
         KieServices kieServices = KieServices.Factory.get();
 
         KieFileSystem kieFileSystem = kieServices.newKieFileSystem();
-        kieFileSystem.write(ResourceFactory.newClassPathResource("TAXI_FARE_RULE.drl"));
-        kieFileSystem.write(ResourceFactory.newClassPathResource("BOOLEAN_RULE.drl"));
         kieFileSystem.write(ResourceFactory.newClassPathResource("CUSTOMER_RULES.drl"));
-        kieFileSystem.write(ResourceFactory.newClassPathResource("LIST_EXAMPLE_RULES.drl"));
-        kieFileSystem.write(ResourceFactory.newClassPathResource("EXIT_ON_FIRST_CONDITION_MATCH_EXAMPLE.drl"));
-        kieFileSystem.write(ResourceFactory.newClassPathResource("Discount.drl.xlsx"));
 
         KieBuilder kieBuilder = kieServices.newKieBuilder(kieFileSystem);
         kieBuilder.buildAll();
@@ -42,7 +44,4 @@ public class DroolsConfiguration {
         return kieServices.newKieContainer(kieModule.getReleaseId());
     }
 
-    public KieContainer getKieContainer() {
-        return kieContainer;
-    }
 }
