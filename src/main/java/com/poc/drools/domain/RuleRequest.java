@@ -1,15 +1,23 @@
 package com.poc.drools.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-
 import java.io.Serializable;
 
-@Getter
-@AllArgsConstructor
 public class RuleRequest<T extends Serializable> {
 
     private String rulesetName;
     private T input;
+
+    public RuleRequest(String rulesetName, T input) {
+        this.rulesetName = rulesetName;
+        this.input = input;
+    }
+
+    public String getRulesetName() {
+        return rulesetName;
+    }
+
+    public T getInput() {
+        return input;
+    }
 
 }

@@ -26,7 +26,12 @@ public class DroolsConfiguration {
     }
 
     public KieContainer getBFunction(String bFunction) {
-        return bFunctions.putIfAbsent(bFunction, kieContainer(bFunction));
+        if (bFunctions.containsKey(bFunction)) {
+            return bFunctions.get(bFunction);
+        }
+        KieContainer kieContainer = kieContainer(bFunction);
+        bFunctions.put(bFunction, kieContainer(bFunction));
+        return kieContainer;
     }
 
     // TODO instead of classpath retrieve from database or something like that

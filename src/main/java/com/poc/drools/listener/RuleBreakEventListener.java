@@ -1,6 +1,5 @@
 package com.poc.drools.listener;
 
-import lombok.Getter;
 import org.drools.core.event.DefaultAgendaEventListener;
 import org.kie.api.definition.rule.Rule;
 import org.kie.api.event.rule.AfterMatchFiredEvent;
@@ -13,7 +12,6 @@ import java.util.List;
  *
  * @author Oliver Klesing
  */
-@Getter
 public class RuleBreakEventListener extends DefaultAgendaEventListener  {
 
     private final List<String> namesOfRulesBroken = new ArrayList<>();
@@ -25,4 +23,7 @@ public class RuleBreakEventListener extends DefaultAgendaEventListener  {
         namesOfRulesBroken.add(ruleName);
     }
 
+    public List<String> getNamesOfRulesBroken() {
+        return namesOfRulesBroken;
+    }
 }

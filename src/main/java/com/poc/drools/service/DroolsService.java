@@ -1,4 +1,4 @@
-package com.poc.drools;
+package com.poc.drools.service;
 
 import com.poc.drools.configuration.DroolsConfiguration;
 import com.poc.drools.domain.RuleRequest;

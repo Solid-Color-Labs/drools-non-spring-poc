@@ -12,16 +12,21 @@ repositories {
 dependencies {
 
     //drools
-    implementation 'org.kie:kie-ci:8.32.0.Final'
+    implementation 'org.kie:kie-ci:9.44.0.Final'
     implementation 'org.drools:drools-core:9.44.0.Final'
     implementation 'org.drools:drools-compiler:9.44.0.Final'
     implementation 'org.drools:drools-mvel:9.44.0.Final'
-    implementation 'org.projectlombok:lombok:1.18.28'
 
     testImplementation platform('org.junit:junit-bom:5.9.1')
     testImplementation 'org.junit.jupiter:junit-jupiter'
 }
 
+configurations {
+    provided
+    testRuntime.extendsFrom(provided)
+}
+
 test {
+    classpath += configurations.provided
     useJUnitPlatform()
 }

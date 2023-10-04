@@ -1,23 +1,42 @@
 package com.poc.drools.domain;
 
-import lombok.Data;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+import java.io.Serializable;
 
-@Data
-@RequiredArgsConstructor
-public class Customer {
+public class Customer implements Serializable {
 
-    @NonNull
     private CustomerType type;
 
-    @NonNull
     private int years;
 
-    @NonNull
     private String name;
 
     private int discount;
+
+    public Customer(CustomerType type, int years, String name) {
+        this.type = type;
+        this.years = years;
+        this.name = name;
+    }
+
+    public void setDiscount(int discount) {
+        this.discount = discount;
+    }
+
+    public CustomerType getType() {
+        return type;
+    }
+
+    public int getYears() {
+        return years;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getDiscount() {
+        return discount;
+    }
 
     // Standard getters and setters
 
